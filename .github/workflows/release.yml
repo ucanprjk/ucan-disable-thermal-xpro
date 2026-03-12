@@ -1,0 +1,24 @@
+name: Build and Release UCAN Module
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Module Zip
+        run: |
+          zip -r UCAN_Disable_Thermal_XPro_v2.zip . \
+          -x "*.git*" ".github/*"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: UCAN_Disable_Thermal_XPro_v2.zip
